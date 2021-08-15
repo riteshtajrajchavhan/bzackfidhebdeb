@@ -31,6 +31,7 @@ var level7 = 7;
 var level8 = 8;
 var level9 = 9;
 var level10 = 10;
+var level11 = 11;
 
 function preload(){
 playerImg=loadAnimation("image/player.png","image/player-frame2.png","image/playerImg-3.png","image/player4.png");
@@ -134,7 +135,7 @@ function setup() {
 
 
 
-alert("If the game is laging so please restart the game and please give ratings because this is my first game so please tell me how it is")
+//alert("If the game is laging so please restart the game and please give ratings because this is my first game so please tell me how it is")
 
 }
 
@@ -581,7 +582,7 @@ fgroup.add(g13);
   player=createSprite(windowWidth/2-100,windowHeight/2);
   player.addAnimation("running",playerImg);
    
-  health=createSprite(windowWidth/2-380,windowHeight/2-250,110,20);
+  health=createSprite(windowWidth/2-380,windowHeight/2-200,110,20);
   health.shapeColor="lawngreen";
   
   
@@ -3332,7 +3333,367 @@ e2.display();
 
     } //level 10 end 
 
+else if(gameState === level11){
+  
+ // gui start
 
+ r.visible=true;
+ l.visible=true;
+ p.visible=true;
+ j.visible=true;
+ shootbutton.visible=true;
+ 
+ menu.visible=false;
+
+ 
+if (shootbutton.isHeld && bullets>0){
+  move=4;
+ if(angle === 5){
+ if(frameCount % 5 === 0){
+   player.addAnimation("running",playergunImg);
+ 
+    var bullet = createSprite(player.x+60,player.y+15);
+     bullet.addImage(bulletImg2);
+     bullet.scale=0.1;
+    bullet.velocityX=30;
+     bullet.lifetime=30;
+     shootSound.play();
+     bullets=bullets-1;
+     bulletgroup.add(bullet);
+     fire = 4;
+     }
+   }
+     if(angle === 4){
+        if(frameCount % 5 === 0){
+         player.addAnimation("running",playergunImg2);
+ 
+          var bullet = createSprite(player.x-60,player.y+15);
+           bullet.addImage(bulletImg);
+           bullet.scale=0.1;
+          bullet.velocityX=-30;
+           bullet.lifetime=30;
+           shootSound.play();
+           bullets=bullets-1;
+           bulletgroup.add(bullet);
+           }
+         }
+ }
+ 
+ if(shootbutton.isReleased){
+  move=5;
+  fire = 5;
+  
+ }
+  
+  if (r.isHeld){
+   angle=5;
+   if(frameCount % 16 === 0){
+     player.addAnimation("running",playerImg);
+    }
+  
+     player.x=player.x+15;
+     angle=5;
+    
+   
+    }
+ 
+    if (l.isHeld){
+     angle=4;
+     if(frameCount % 16 === 0){
+     player.addAnimation("running",playerImg2);
+    }
+  
+       player.x=player.x-10;
+       angle=4;
+    }
+  
+    
+ 
+  // gui end 
+  
+ player.velocityY=player.velocityY+2.0;
+ 
+ if(player.x>windowWidth/2-18 && player.x<windowWidth/2+300){
+  camera.x=player.x;
+  health.x=player.x-340;
+  bosshealth.x=player.x+340;
+  rightbutton.x=player.x-250;
+  leftbutton.x=player.x-350;
+  punchButton.x=player.x+350;
+  jumpButton.x=player.x+250;
+  gun.x=player.x-390;
+  shoot.x=player.x+150;
+  }
+ 
+  
+ 
+
+ 
+ if (keyDown(RIGHT_ARROW)) {
+   player.x=player.x+15;
+   angle=5;
+   
+   if(frameCount % 16 === 0){
+     player.addAnimation("running",playerImg);
+    }
+ }
+      
+  if (keyDown(LEFT_ARROW)) {
+  player.x=player.x-10;
+  angle=4;
+  
+  if(frameCount % 16 === 0){
+  player.addAnimation("running",playerImg2);
+ }
+   } 
+
+   
+// key down space 
+  
+if(keyDown("space") && once === 5 && player.isTouching(boss)){
+  punch();
+  occur=1;
+ if(player.isTouching(boss)){
+  bosshealth.width= bosshealth.width-10
+      punchSound.play();
+
+     }
+
+}// key down space over
+
+
+if (p.isPressed){
+  if(once === 5  && player.isTouching(boss)){
+    punch();
+    occur=1;
+   if(player.isTouching(boss)){
+       bosshealth.width= bosshealth.width-5
+        punchSound.play();
+  }
+ 
+  }
+}
+
+
+   if(fgroup.isTouching(player)){
+    player.collide(fgroup);
+   if(keyDown(UP_ARROW)){
+          player.velocityY=-29;
+          jumpSound.play();
+           }
+if (j.isHeld){
+  player.velocityY=-29;
+  jumpSound.play();
+ }
+}
+
+
+if(groundgroup.isTouching(player)){
+  player.collide(groundgroup);
+ if(keyDown(UP_ARROW)){
+        player.velocityY=-29;
+        jumpSound.play();
+         }
+if (j.isHeld){
+player.velocityY=-29;
+jumpSound.play();
+}
+}
+
+Time();
+
+
+if(player.x<boss.x){
+  if(frameCount %5 === 0){
+    boss.addAnimation("running",bossImg);
+  }
+}
+
+
+if(player.x>boss.x){
+  if(frameCount %5 === 0){
+    boss.addAnimation("running",bossImg2);
+  }
+}
+
+
+
+if(bossoccur === 5){
+down=down+1;
+boss.x=windowWidth/2+300
+}
+
+if(down === 30){
+  ball = createSprite(boss.x,boss.y);
+  ball.addImage(ballImg);
+ ball.scale=0.3;
+ ball.lifetime=50;
+ group.add(ball);
+}
+
+if(down === 50){
+  ball = createSprite(boss.x,boss.y);
+  ball.addImage(ballImg);
+ ball.scale=0.3;
+ ball.lifetime=80;
+ group.add(ball);
+}
+
+if(down === 70){
+  ball = createSprite(boss.x,boss.y);
+  ball.addImage(ballImg);
+ ball.scale=0.3;
+ ball.lifetime=50;
+ group.add(ball);
+
+
+}
+
+if(down === 90){
+  down=0;
+  bossoccur=4;
+}
+
+
+
+if(bossoccur === 4){
+  bosstouch=bosstouch+1;
+  boss.x=windowWidth/2-300
+  }
+  
+  if(bosstouch === 30){
+    ball = createSprite(boss.x,boss.y);
+    ball.addImage(ballImg);
+   ball.scale=0.3;
+   ball.lifetime=50;
+   group.add(ball);
+  }
+  
+  if(bosstouch === 50){
+    ball = createSprite(boss.x,boss.y);
+    ball.addImage(ballImg);
+   ball.scale=0.3;
+   ball.lifetime=80;
+   group.add(ball);
+  }
+  
+  if(bosstouch === 70){
+    ball = createSprite(boss.x,boss.y);
+    ball.addImage(ballImg);
+   ball.scale=0.3;
+   ball.lifetime=150;
+   group.add(ball);
+   }
+
+if(bosstouch === 90){
+  bosstouch=0;
+  bossoccur=5;
+}
+
+
+
+
+
+
+for(var i = 0; i < group.length; i++){
+  if(group.get(i).y > player.y){
+ group.get(i).velocityY=-5;
+      }
+
+      if(group.get(i).y < player.y){
+        group.get(i).velocityY=5;
+             }
+
+             if(group.get(i).y === player.y){
+              group.get(i).velocityY=0;
+                   }
+
+
+                   if(group.get(i).x > player.x){
+                    group.get(i).velocityX=-5;
+                         }
+                   
+                         if(group.get(i).x < player.x){
+                           group.get(i).velocityX=5;
+                                }
+                   
+                                if(group.get(i).x === player.x){
+                                 group.get(i).velocityX=0;
+                                      }
+
+                                      if(group.get(i).isTouching(player)){
+                                        group.get(i).destroy();
+                                        health.width=health.width-10;
+                                             }
+
+                                           
+
+}
+
+textSize(40);
+fill("white");
+text(""+bullets,gun.x-25,gun.y+60)
+
+for(var i = 0; i < bulletgroup.length; i++){
+  if(bulletgroup.get(i).isTouching(boss)){
+   bulletgroup.get(i).destroy();
+    bosshealth.width=bosshealth.width-10;
+      }
+}
+
+
+
+if(health.width<10){
+  gameState=gameOver;
+  place=4;
+
+
+  player.destroy();
+  health.destroy();
+ rightbutton.destroy();
+  leftbutton.destroy();
+  punchButton.destroy();
+  jumpButton.destroy();
+   shoot.destroy();
+  gun.destroy();
+ back.destroy();
+  fgroup.destroyEach();
+  group.destroyEach();
+ groundgroup.destroyEach();
+boss.destroy();
+bosshealth.destroy();
+}
+
+
+if(player.y > windowHeight/2+300){
+  health.width=9;
+}
+
+if(bosshealth.width < 10){
+  gameState=bonus;
+
+  win=4;
+
+  player.destroy();
+  health.destroy();
+ rightbutton.destroy();
+  leftbutton.destroy();
+  punchButton.destroy();
+  jumpButton.destroy();
+   shoot.destroy();
+  gun.destroy();
+ back.destroy();
+  fgroup.destroyEach();
+  group.destroyEach();
+ groundgroup.destroyEach();
+boss.destroy();
+bosshealth.destroy();
+
+}
+
+
+
+}
 
 
 
@@ -3859,6 +4220,118 @@ wall.visible=false;
 
 }//levelbutton 10
 
+if (levelbutton5.isHeld){
+ 
+  
+  bullets=10;
+
+   down = 1;
+ bossoccur = 5;
+ bosstouch = 5;
+bossheight = 5;
+  
+    
+  hide.visible=true;
+  
+  back=createSprite(windowWidth/2,windowHeight/2)
+  back.addImage(backImg);
+  back.scale=2.2;
+
+  //enemy boss
+
+boss=createSprite(windowWidth/2+300,windowHeight/2-150);
+boss.addAnimation("running",bossImg);
+boss.scale=2.0;
+
+
+bosshealth=createSprite(windowWidth/2+300,windowHeight/2-200,250,20);
+bosshealth.shapeColor="red"
+bosshealth.tint = "rgba(255, 255, 255, 0.5)";
+
+
+
+
+  //creating  grounds
+
+g1=createSprite(windowWidth/2-300,windowHeight/2+180);
+g1.addImage(shortgroundImg);
+g1.scale=2.0;
+fgroup.add(g1);
+
+g2=createSprite(windowWidth/2+40,windowHeight/2+180);
+g2.addImage(shortgroundImg);
+g2.scale=2.0;
+fgroup.add(g2);
+
+
+g3=createSprite(windowWidth/2+250,windowHeight/2+180);
+g3.addImage(shortgroundImg);
+g3.scale=2.0;
+fgroup.add(g3);
+
+g4=createSprite(windowWidth/2+550,windowHeight/2+180);
+g4.addImage(shortgroundImg);
+g4.scale=2.0;
+fgroup.add(g4);
+
+///b
+
+b1=createSprite(windowWidth/2-250,windowHeight/2-50);
+b1.addImage(BeamImg);
+b1.scale=0.5;
+groundgroup.add(b1);
+
+b2=createSprite(windowWidth/2+20,windowHeight/2-90);
+b2.addImage(BeamImg);
+b2.scale=0.5;
+groundgroup.add(b2);
+
+b3=createSprite(windowWidth/2+270,windowHeight/2-30);
+b3.addImage(BeamImg);
+b3.scale=0.5;
+groundgroup.add(b3);
+
+//player objects
+
+player=createSprite(windowWidth/2+100,windowHeight/2);
+player.addAnimation("running",playerImg);
+ 
+health=createSprite(windowWidth/2-380,windowHeight/2-200,110,20);
+health.shapeColor="lawngreen";
+
+
+rightbutton=createSprite(windowWidth/2-250,windowHeight/2+160);
+rightbutton.addImage(rightImg);
+rightbutton.scale=0.3;
+
+leftbutton=createSprite(windowWidth/2-350,windowHeight/2+160);
+leftbutton.addImage(leftImg);
+leftbutton.scale=0.3;
+
+punchButton=createSprite(windowWidth/2+350,windowHeight/2+160);
+punchButton.addImage(punchImg);
+punchButton.scale=0.240;
+
+jumpButton=createSprite(windowWidth/2+250,windowHeight/2+160)
+jumpButton.addImage(jumpImg);
+jumpButton.scale=0.3;
+
+
+gun=createSprite(windowWidth/2-390,windowHeight/2-80);
+gun.addImage(gunImg);
+gun.scale=0.2;
+
+shoot=createSprite(windowWidth/2+150,windowHeight/2+160);
+shoot.addImage(shootImg);
+shoot.scale=0.150;
+
+
+
+gameState=level11; 
+}//levelbutton 11
+
+
+
   }
  
 
@@ -3917,10 +4390,10 @@ function touchMoved() {
 
 
 function Time(){
-  if(gameState === level5){
+  if(gameState === level5 || gameState === level11){
   if(occur === 1){
     time=time+1;
-    if(time === 7){
+    if(time === 5){
   
       if(angle === 5){
         player.addAnimation("running",playerImg);
