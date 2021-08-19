@@ -135,7 +135,7 @@ function setup() {
 
 
 
-//alert("If the game is laging so please restart the game and please give ratings because this is my first game so please tell me how it is")
+alert("new update has came so please update the game")
 
 }
 
